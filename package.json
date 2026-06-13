@@ -1,0 +1,50 @@
+{
+  "name": "mrarviher",
+  "version": "1.0.0",
+  "description": "一个功能完整的文本编辑器，支持 Markdown 渲染与纯文本编辑",
+  "keywords": [
+    "text-editor",
+    "markdown",
+    "editor",
+    "viewer"
+  ],
+  "license": "MIT",
+  "author": "Ruanftrix",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.ruanftrix.mrarviher",
+    "productName": "Mrarviher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "Assets/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "dir",
+      "icon": "Assets/favicon.ico",
+      "signAndEditExecutable": false
+    }
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "iconv-lite": "^0.7.2",
+    "marked": "^18.0.5"
+  },
+  "devDependencies": {
+    "electron": "^42.3.3",
+    "electron-builder": "^26.15.0",
+    "typescript": "^6.0.3"
+  }
+}

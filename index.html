@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mrarviher</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+</head>
+<body>
+  <!-- 自定义标题栏 -->
+  <div class="titlebar" id="titlebar">
+    <div class="titlebar-drag">
+      <img src="./Assets/favicon.ico" class="titlebar-icon" alt="">
+      <span class="titlebar-title" id="titlebar-title">Mrarviher</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn" id="win-minimize" title="最小化">
+        <svg width="12" height="12" viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <button class="titlebar-btn" id="win-maximize" title="最大化">
+        <svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+      <button class="titlebar-btn titlebar-btn-close" id="win-close" title="关闭">
+        <svg width="12" height="12" viewBox="0 0 12 12"><line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="2" x2="2" y2="10" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <header class="toolbar">
+      <div class="toolbar-left">
+        <button class="toolbar-btn" title="新建 (Ctrl+N)" onclick="insertFormat('new')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn" title="打开 (Ctrl+O)" onclick="insertFormat('open')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn" title="保存 (Ctrl+S)" onclick="insertFormat('save')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10"/>
+            <polyline points="17 12 7 12 7 17"/>
+            <polyline points="15 20 15 12 19 12"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn" title="另存为 (Ctrl+Shift+S)" onclick="insertFormat('saveas')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10"/>
+            <polyline points="17 12 7 12 7 17"/>
+            <polyline points="15 20 15 12 19 12"/>
+            <line x1="9" y1="8" x2="15" y2="8"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn" title="导出" onclick="insertFormat('export')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-center">
+        <button class="toolbar-btn editor-only" title="加粗 (Ctrl+B)" onclick="insertFormat('bold')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+            <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="斜体 (Ctrl+I)" onclick="insertFormat('italic')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="4" x2="10" y2="4"/>
+            <line x1="14" y1="20" x2="5" y2="20"/>
+            <line x1="15" y1="4" x2="9" y2="20"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="删除线" onclick="insertFormat('strikethrough')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4H9a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3H7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="链接" onclick="insertFormat('link')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="代码" onclick="insertFormat('code')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-center">
+        <button class="toolbar-btn editor-only" title="标题1" onclick="insertFormat('h1')">
+          <span>H1</span>
+        </button>
+        <button class="toolbar-btn editor-only" title="标题2" onclick="insertFormat('h2')">
+          <span>H2</span>
+        </button>
+        <button class="toolbar-btn editor-only" title="标题3" onclick="insertFormat('h3')">
+          <span>H3</span>
+        </button>
+        <button class="toolbar-btn editor-only" title="标题4" onclick="insertFormat('h4')">
+          <span>H4</span>
+        </button>
+        <button class="toolbar-btn editor-only" title="标题5" onclick="insertFormat('h5')">
+          <span>H5</span>
+        </button>
+        <button class="toolbar-btn editor-only" title="标题6" onclick="insertFormat('h6')">
+          <span>H6</span>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-center">
+        <button class="toolbar-btn editor-only" title="有序列表" onclick="insertFormat('ol')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 10h18"/>
+            <path d="M3 15h18"/>
+            <path d="M3 5h18"/>
+            <path d="M8 12l0 0"/>
+            <path d="M8 17l0 0"/>
+            <path d="M8 7l0 0"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="无序列表" onclick="insertFormat('ul')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 5h12"/>
+            <path d="M8 12h12"/>
+            <path d="M8 19h12"/>
+            <path d="M3 5l1.5 1.5L3 8"/>
+            <path d="M3 12l1.5 1.5L3 15"/>
+            <path d="M3 19l1.5 1.5L3 22"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="待办事项 (Todo)" onclick="insertFormat('todo')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2" ry="2"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="引用" onclick="insertFormat('quote')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21"/>
+            <path d="M15 3c-3 0-7 1-7 8v8c0 1.25.756 2.017 2 2h4c1.25 0 2-.75 2-1.973V13c0-1.25-.75-2-2-2-1 0-1 0-1-1v-1c0-1 1-2 2-2s1-.008 1-1.03V3"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn editor-only" title="代码块" onclick="insertFormat('codeblock')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="9" x2="15" y2="9"/>
+            <line x1="9" y1="15" x2="13" y2="15"/>
+          </svg>
+        </button>
+      </div>
+      <div class="toolbar-divider"></div>
+      <div class="toolbar-right">
+        <div class="mode-switcher" id="mode-switcher" title="视图模式">
+          <button class="mode-btn active" data-mode="split" onclick="switchMode('split')" title="分屏模式">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="12" y1="3" x2="12" y2="21"/>
+            </svg>
+          </button>
+          <button class="mode-btn" data-mode="editor" onclick="switchMode('editor')" title="仅编辑器">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+          <button class="mode-btn" data-mode="preview" onclick="switchMode('preview')" title="仅预览">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <button class="toolbar-btn" id="theme-toggle" title="切换主题 (Ctrl+Shift+T)" onclick="insertFormat('theme')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <button class="toolbar-btn" title="设置" onclick="onSettingsClick(event)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <div class="autosave-toggle" id="autosave-toggle" onclick="toggleAutoSave()" title="自动保存">
+          <div class="autosave-switch" id="autosave-switch"></div>
+          <span class="autosave-label">Auto</span>
+        </div>
+      </div>
+    </header>
+    <div class="editor-container">
+      <div class="editor-panel" id="editor-panel">
+        <canvas id="particle-canvas" class="particle-canvas"></canvas>
+        <textarea id="editor" placeholder="在这里输入内容..."></textarea>
+      </div>
+      <div class="resizer" id="resizer"></div>
+      <div class="preview-panel" id="preview-panel">
+        <div id="preview"></div>
+      </div>
+    </div>
+
+    <!-- 底部状态栏 -->
+    <div class="statusbar" id="statusbar">
+      <div class="statusbar-left">
+        <span class="statusbar-item statusbar-filename" id="statusbar-filename" title="文件路径">未打开文件</span>
+      </div>
+      <div class="statusbar-right">
+        <div class="statusbar-dropdown" id="statusbar-encoding-dropdown">
+          <button class="statusbar-btn" onclick="toggleEncodingMenu()" title="点击选择编码">
+            <span id="statusbar-encoding">UTF-8</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="statusbar-menu" id="encoding-menu"></div>
+        </div>
+        <span class="statusbar-sep">|</span>
+        <div class="statusbar-dropdown" id="statusbar-lineending-dropdown">
+          <button class="statusbar-btn" onclick="toggleLineEndingMenu()" title="点击选择换行符">
+            <span id="statusbar-lineending">LF</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="statusbar-menu" id="lineending-menu"></div>
+        </div>
+        <span class="statusbar-sep">|</span>
+        <span class="statusbar-item" id="statusbar-position">Ln 1, Col 1</span>
+        <span class="statusbar-sep">|</span>
+        <span class="statusbar-item" id="statusbar-lines">0 行</span>
+        <span class="statusbar-sep">|</span>
+        <span class="statusbar-item" id="statusbar-chars">0 字符</span>
+      </div>
+    </div>
+  </div>
+  <div id="toast-container"></div>
+
+  <!-- 设置面板 -->
+  <div class="settings-overlay" id="settings-overlay" onclick="closeSettings()">
+    <div class="settings-panel" onclick="event.stopPropagation()">
+      <div class="settings-header">
+        <h3>设置</h3>
+        <button class="settings-close" onclick="closeSettings()" title="关闭">&times;</button>
+      </div>
+      <div class="settings-body">
+
+        <!-- 主题色 -->
+        <div class="setting-group">
+          <label class="setting-label">主题色</label>
+          <div class="color-picker-grid" id="color-picker-grid">
+            <div class="color-option active" data-color="#22c55e" style="--c:#22c55e" title="绿色"><span></span></div>
+            <div class="color-option" data-color="#f97316" style="--c:#f97316" title="橙色"><span></span></div>
+            <div class="color-option" data-color="#3b82f6" style="--c:#3b82f6" title="蓝色"><span></span></div>
+            <div class="color-option" data-color="#a855f7" style="--c:#a855f7" title="紫色"><span></span></div>
+            <div class="color-option" data-color="#ec4899" style="--c:#ec4899" title="粉色"><span></span></div>
+            <div class="color-option" data-color="#14b8a6" style="--c:#14b8a6" title="青色"><span></span></div>
+            <div class="color-option" data-color="#eab308" style="--c:#eab308" title="黄色"><span></span></div>
+            <div class="color-option" data-color="#ef4444" style="--c:#ef4444" title="红色"><span></span></div>
+          </div>
+        </div>
+
+        <!-- 全局应用主题 -->
+        <div class="setting-group">
+          <label class="setting-label">应用主题</label>
+          <div class="theme-preview-row" id="app-theme-row">
+            <button class="theme-preview-btn active" id="app-theme-dark" onclick="setAppTheme('dark')">深色</button>
+            <button class="theme-preview-btn" id="app-theme-light" onclick="setAppTheme('light')">浅色</button>
+          </div>
+        </div>
+
+        <!-- 编辑器字体大小 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">编辑器字号</label>
+          <div class="size-adjuster">
+            <button class="size-btn" onclick="adjustFontSize('editor', -1)">-</button>
+            <span class="size-value" id="editor-font-size-val">14px</span>
+            <button class="size-btn" onclick="adjustFontSize('editor', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- 预览字体大小 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">预览字号</label>
+          <div class="size-adjuster">
+            <button class="size-btn" onclick="adjustFontSize('preview', -1)">-</button>
+            <span class="size-value" id="preview-font-size-val">16px</span>
+            <button class="size-btn" onclick="adjustFontSize('preview', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- Tab 缩进大小 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">Tab 缩进</label>
+          <div class="size-adjuster">
+            <button class="size-btn" onclick="adjustTabSize(-1)">-</button>
+            <span class="size-value" id="tab-size-val">2 空格</span>
+            <button class="size-btn" onclick="adjustTabSize(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Tab 输出制表符 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">Tab 输出制表符</label>
+          <div class="autosave-toggle" id="tab-char-toggle" onclick="toggleTabChar()">
+            <div class="autosave-switch" id="tab-char-switch"></div>
+          </div>
+        </div>
+
+        <!-- 字体选择 -->
+        <div class="setting-group">
+          <label class="setting-label">字体</label>
+          <div class="font-selector">
+            <select id="font-family-select" onchange="setFontFamily(this.value)">
+              <option value="">加载中...</option>
+            </select>
+            <span class="font-preview" id="font-preview-text">Aa 预览文字</span>
+          </div>
+        </div>
+
+        <!-- 编辑器自动换行 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">编辑器自动换行</label>
+          <div class="autosave-toggle" id="wordwrap-toggle" onclick="toggleWordWrap()">
+            <div class="autosave-switch" id="wordwrap-switch"></div>
+          </div>
+        </div>
+
+        <!-- 启动时恢复上次文件 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">启动时恢复上次文件</label>
+          <div class="autosave-toggle" id="restore-file-toggle" onclick="toggleRestoreFile()">
+            <div class="autosave-switch" id="restore-file-switch"></div>
+          </div>
+        </div>
+
+        <!-- 切换换行符时替换现有内容 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">切换换行符时替换现有内容</label>
+          <div class="autosave-toggle active" id="replace-le-toggle" onclick="toggleReplaceLineEndings()">
+            <div class="autosave-switch" id="replace-le-switch"></div>
+          </div>
+        </div>
+
+        <!-- 清除数据 -->
+        <div class="setting-group">
+          <label class="setting-label">数据管理</label>
+          <button class="clear-data-btn" onclick="clearAllData()">清除所有缓存与记录</button>
+          <p class="setting-hint">将清除上次打开文件记录、自动保存状态等本地存储数据</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 彩蛋设置面板 -->
+  <div class="easter-egg-overlay" id="easter-egg-overlay" onclick="closeEasterEgg()">
+    <div class="easter-egg-panel" onclick="event.stopPropagation()">
+      <div class="easter-egg-header">
+        <h3>彩蛋设置</h3>
+        <button class="easter-egg-close" onclick="closeEasterEgg()" title="关闭">&times;</button>
+      </div>
+      <div class="easter-egg-body">
+
+        <!-- 彩虹主题色 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">彩虹主题色</label>
+          <div class="autosave-toggle" id="rainbow-toggle" onclick="toggleRainbowTheme()">
+            <div class="autosave-switch" id="rainbow-switch"></div>
+          </div>
+        </div>
+        <p class="setting-hint">主题色会像彩虹一样循环变化</p>
+
+        <!-- 系统原生标题栏 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">使用系统标题栏</label>
+          <div class="autosave-toggle" id="native-titlebar-toggle" onclick="toggleNativeTitlebar()">
+            <div class="autosave-switch" id="native-titlebar-switch"></div>
+          </div>
+        </div>
+        <p class="setting-hint">切换后需要重启应用生效（将自动重启）</p>
+
+        <!-- 打字音效 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">打字音效</label>
+          <div class="autosave-toggle" id="typewriter-toggle" onclick="toggleTypewriterSound()">
+            <div class="autosave-switch" id="typewriter-switch"></div>
+          </div>
+        </div>
+        <p class="setting-hint">每次按键触发机械键盘打字声</p>
+
+        <!-- 粒子背景 -->
+        <div class="setting-group setting-row">
+          <label class="setting-label">粒子背景</label>
+          <div class="autosave-toggle" id="particles-toggle" onclick="toggleParticles()">
+            <div class="autosave-switch" id="particles-switch"></div>
+          </div>
+        </div>
+        <p class="setting-hint">编辑区背景飘浮彩色粒子</p>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

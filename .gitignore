@@ -34,3 +34,6 @@ pnpm-debug.log*
 # Runtime data
 titlebar-mode.json
 last-opened-file.json
+
+# Hardcoded config (installer.iss handles registry)
+install-file-association.reg

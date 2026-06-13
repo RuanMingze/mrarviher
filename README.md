@@ -100,53 +100,19 @@ Notepad++ 从一个优秀的文本编辑器逐渐演变成了"轻量级IDE"：
 
 ## 安装与构建
 
-### 重要说明：无预编译安装包
+### 方式一：安装包（推荐）
 
-**由于技术限制，我们无法直接提供预编译的安装程序（.exe安装包）。**
+我们提供了 **Inno Setup 安装程序**，一键完成所有配置：
 
-原因：
-- Windows安装包需要代码签名证书（需付费购买）
-- 自动修改注册表需要管理员权限提升
-- electron-builder在CI/CD环境下的签名流程复杂
+1. 从 [Releases](https://github.com/RuanMingze/mrarviher/releases) 页面下载 `Mrarviher-Setup-1.0.0.exe`
+2. 双击运行，按向导完成安装
+3. 安装程序会自动完成以下操作：
+   - 将应用安装到 `Program Files`
+   - **自动添加文件关联注册表**（.md / .txt）
+   - 创建桌面快捷方式和开始菜单项
+   - 卸载时自动清理注册表
 
-**解决方案：使用自动化构建脚本**
-
-我们提供了 `setup.bat` 脚本，可一键完成从零到运行的全部步骤。
-
-### 快速开始（推荐）
-
-#### 方法一：自动构建脚本
-
-双击运行 `setup.bat`，脚本会自动完成以下操作：
-
-1. **检测/下载 Node.js**
-   - 如未安装Node.js，自动从国内镜像源下载
-   - 使用 npmmirror 镜像加速下载
-   - 静默安装，无需手动操作
-
-2. **安装 pnpm**
-   - 全局安装 pnpm 包管理器
-   - 如已存在则跳过
-
-3. **安装项目依赖**
-   - 执行 `pnpm install` 安装所有依赖
-
-4. **构建应用**
-   - 执行 `pnpm build` 打包应用
-   - 输出到 `dist/win-unpacked/` 目录
-
-5. **文件关联设置（手动）**
-   - 构建完成后，提示用户手动执行注册表文件
-   - 双击 `install-file-association.reg`
-   - 在弹出的确认框中点击"是"
-
-**完整命令行操作：**
-```bash
-# 双击 setup.bat 或在命令行执行：
-setup.bat
-```
-
-#### 方法二：手动构建（开发者）
+### 方式二：从源码构建（开发者）
 
 如果你已熟悉 Node.js 环境：
 
@@ -164,23 +130,24 @@ pnpm install
 # 开发模式运行
 pnpm start
 
-# 打包应用
+# 打包应用（生成 dist/win-unpacked/）
 pnpm build
 
-# 签名打包（Windows，需要证书）
-pnpm build:signed
+# 使用 Inno Setup 编译安装程序（需要 Inno Setup Compiler）
+iscc installer.iss
 ```
 
-### 文件关联设置
+### 构建安装程序
 
-构建完成后，如需将 Mrarviher 注册为默认文本编辑器：
+安装程序使用 [Inno Setup](https://jrsoftware.org/isinfo.php) 编译：
 
-1. 找到项目根目录下的 `install-file-association.reg` 文件
-2. 双击该文件
-3. 在弹出的注册表编辑器确认框中点击"是"
-4. 完成后，双击 .md 文件会自动用 Mrarviher 打开
+```bash
+# 前置：先执行 pnpm build 生成 dist/win-unpacked/
+# 然后编译安装脚本
+iscc installer.iss
 
-**注意：** 修改注册表需要管理员权限。
+# 输出位置：installer/Mrarviher-Setup-{版本号}.exe
+```
 
 ## 项目结构
 
@@ -192,7 +159,7 @@ Mrarviher-ElectroNode/
 ├── renderer.js          # 渲染进程逻辑
 ├── styles.css           # 样式文件
 ├── Assets/              # 图标资源
-├── install-file-association.reg  # 文件关联注册表
+├── installer.iss        # Inno Setup 安装脚本
 └── package.json         # 项目配置
 ```
 

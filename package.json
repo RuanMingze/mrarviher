@@ -23,6 +23,9 @@
     "directories": {
       "output": "dist"
     },
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
+    },
     "files": [
       "src/**/*",
       "index.html",
@@ -34,7 +37,7 @@
     "win": {
       "target": "dir",
       "icon": "Assets/favicon.ico",
-      "signAndEditExecutable": false
+      "signExecutable": false
     }
   },
   "dependencies": {
